@@ -12,7 +12,7 @@
 
 ### Functional / Acceptance Criteria ###
 * The new form input field should only accept website domains starting with "www."  or with the host name, e.g., "www.nytimes.com", "nytimes.com" or "g1.com.br" or "www.g1.com.br".
-* When the user hits the Locate button, an asynchronous call should be made to http://ip-api.com/json/:host, where :host corresponds to the user input.
+* When the user hits the Locate button, an asynchronous call should be made to http://freegeoip.net/json/:host, where :host corresponds to the user input.
 * If this async call is successful, a second panel must be rendered, below the form, displaying a map showing the website's physical location from the latitude and longitude coordinates of the JSON response.
 * When the user hits the existing My location button, his position must also be displayed on the map, **alone or besides a website location** if the user used that feature before.
 * When the user hits the Reset location button, the user location must be cleared off from the map (but the website's location should still be displayed, if any).
@@ -28,27 +28,23 @@
 * Task automation (grunt, gulp, and so on) is a nice addition to your challenge.
 * It is expected that you know how to properly commit changes in Git, which means you should present meaningful commits with descriptive commit messages.
 * Well organized projects have descriptive Readme files. Therefore you should provide as much as you can every useful information such as fundamental decisions taken, the project setup steps, how to execute the unit tests, and any further call outs of any kind.
-* There may be problems with the API used to retrieve the location. You can consider switching to a different one like http://freegeoip.net
 
 ### Technical Details ###
-You should receive a JSON response from http://ip-api.com/json/:host similar to:
+You should receive a JSON response from http://freegeoip.net/json/:host similar to:
 
 ```
-{  
-   "as":"AS20044 S/A ESTADO DE MINAS",
-   "city":"Belo Horizonte",
-   "country":"Brazil",
-   "countryCode":"BR",
-   "isp":"S/a Estado De Minas",
-   "lat":-19.9191,
-   "lon":-43.9386,
-   "org":"S/a Estado De Minas",
-   "query":"200.188.178.56",
-   "region":"MG",
-   "regionName":"Minas Gerais",
-   "status":"success",
-   "timezone":"America/Sao_Paulo",
-   "zip":""
+{
+    "ip": "172.217.10.4",
+    "country_code": "US",
+    "country_name": "United States",
+    "region_code": "CA",
+    "region_name": "California",
+    "city": "Mountain View",
+    "zip_code": "94043",
+    "time_zone": "America/Los_Angeles",
+    "latitude": 37.4192,
+    "longitude": -122.0574,
+    "metro_code": 807
 }
 ```
 
