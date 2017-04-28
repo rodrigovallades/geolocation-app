@@ -28,6 +28,7 @@
 * Task automation (grunt, gulp, and so on) is a nice addition to your challenge.
 * It is expected that you know how to properly commit changes in Git, which means you should present meaningful commits with descriptive commit messages.
 * Well organized projects have descriptive Readme files. Therefore you should provide as much as you can every useful information such as fundamental decisions taken, the project setup steps, how to execute the unit tests, and any further call outs of any kind.
+* There may be problems with the API used to retrieve the location. You can consider switching to a different one like http://freegeoip.net
 
 ### Technical Details ###
 You should receive a JSON response from http://ip-api.com/json/:host similar to:
