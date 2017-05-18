@@ -1,6 +1,6 @@
 // ================================================
 // Note to candidate:
-//	This code has bad practices and defects
+//	This code has bad practices
 //	feel free to replace it with a better solution
 // ================================================
 
