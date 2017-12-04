@@ -1,7 +1,7 @@
-<p class="alert alert-{{messageClass()}}" ng-if="message.text.length">{{message.text}}</p>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h2>Estimated location</h2>
+        <p class="alert alert-{{messageClass()}}" ng-if="message.text.length">{{message.text}}</p>
+        <h2 ng-if="queryTitle">{{queryTitle}} (estimated)</h2>        
         <table class="table table-striped empty geotable">
             <tbody>
                 <tr>
@@ -71,8 +71,8 @@
                         </span>
                     </div>
                 </div>
-            </div>            
-        </div>        
-        <div id="map" ng-show="showMap"></div>        
-    </div>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>    
 </div>

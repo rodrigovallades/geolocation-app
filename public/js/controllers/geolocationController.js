@@ -2,12 +2,18 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	function($scope, $http, $routeParams, LocateService, $timeout) {
 	
 	var mapCanvas = document.getElementById('map');	
-	var map_markers = [];
-	var user_location = {};	
+	var map = new google.maps.Map(mapCanvas, {				
+		zoom: 3		
+	});
 	
+	var user_location = {};	// simple user LatLng object
+	var markersLatLng = []; // simple LatLng array
+	var map_markers = []; // google maps marker array
+
+	$scope.queryTitle = '';
 	$scope.showMap = false;
 	$scope.message = {};
-	$scope.url = '';
+	$scope.url = 'www.nytimes.com';
 	$scope.query = new Query();
 
 	if($routeParams.url) {
@@ -31,8 +37,8 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	function getMyLocation() {	
 		LocateService.LocateUser()
 		.success(function(response){				
-			console.log(response);			
-			fillLocationDetails(response);
+			//console.log(response);			
+			fillLocationDetails(response, true);
             updateMap(response, true);
 			showMessage(this.message, this.messageType);						
 		})
@@ -45,9 +51,9 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		url = url || $scope.url;
 		LocateService.LocateURL(url)
 		.success(function(response){						
-			console.log(response);
-			fillLocationDetails(response);
-			updateMap(response, true);
+			//console.log(response);
+			fillLocationDetails(response, false);
+			updateMap(response, false);
 			showMessage(this.message, this.messageType);			
 		})
 		.error(function(error){
@@ -56,8 +62,20 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	};
 
 	function resetLocation() {
-		map_markers = _.reject(map_markers, user_location);
-		fillLocationDetails(new Query());
+		if (user_location) {
+			var userLatLng = new google.maps.LatLng(user_location);
+			// find with Google Maps Marker is the user location
+			for (var i = 0; i < map_markers.length; i++ ) {				
+				if (map_markers[i].getPosition().lat() == userLatLng.lat()) {					
+					// hide marker from the map
+					map_markers[i].setMap(null);
+				}
+				// remove marker from marker objects array
+				map_markers.splice(i, 1);
+			}
+			// remove marker from simple markersLatLng array
+			markersLatLng = _.reject(markersLatLng, user_location);
+		}
 		updateMap();
 	}
 
@@ -67,21 +85,22 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	}
 
     function addMarker(map, LatLng) {
-		if (!_.find(map_markers, LatLng)) {
-			map_markers.push(LatLng);
+		// don't add duplicates
+		if (!_.find(markersLatLng, LatLng)) {			
+			var marker = new google.maps.Marker({  
+				position: LatLng,  
+				map: map  
+			});
+			markersLatLng.push(LatLng);
+			map_markers.push(marker);
 		}
-		if (map_markers.length) {			
-			for (var i = 0; i <= map_markers.length; i++) {
-				var marker = new google.maps.Marker({
-					position: map_markers[i],
-					map: map				
-				});				
-			}		            
-		}
+		//console.log(markersLatLng);
+		//console.log(map_markers);
 	}
 
-	function fillLocationDetails(details) {
-		$scope.query = details;
+	function fillLocationDetails(details, queryType) {
+		$scope.query = details;		
+		$scope.queryTitle = queryType ? 'User location' : $scope.url;
 	}
 	
 	function updateMap(data, isUser) {	
@@ -90,16 +109,17 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 			if (isUser) {
 				user_location = myLatLng;
 			}
-			var map = new google.maps.Map(mapCanvas, {				
+			var myLatLng = { lat: data.latitude, lng: data.longitude };			
+			map.setOptions({
 				zoom: 3,
 				center: myLatLng
-			});			
+			})
 			addMarker(map, myLatLng);
 			$scope.showMap = true;
-		} else {
+		} else {			
 			if (map_markers.length === 0) {
 				$scope.showMap = false;
-			} else if (!$scope.url){
+			} else if ($scope.url){
 				getSiteLocation();
 			}
 		}		
