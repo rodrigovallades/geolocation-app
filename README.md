@@ -4,7 +4,7 @@
 
 Requires a webserver to use AnguarjS routes.
 
-Requirements:
+Suggested scenario:
 
 * NodeJS
 * npm
