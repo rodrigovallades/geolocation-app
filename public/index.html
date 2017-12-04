@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="geolocationapp">
+	<head>
+		<meta charset="UTF-8">
+		<base href="/">
+		<meta name="viewport" content="width=device-width">
+		<title>GeoLocation App - Rodrigo Vallades</title>
+		<link rel="stylesheet" href="css/geolocation.css">		
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h1 class="text-center">GeoLocation App - Rodrigo Vallades</h1>
+			</div>			
+			<ng-view></ng-view>			
+		</div>		
+		<script src="js/libs/jquery-1.10.2.min.js"></script>				
+		<script src="js/libs/angular.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/controllers/geolocationController.js"></script>		
+		<script src="js/services/geolocationService.js"></script>
+		<script src="js/directives/my-directives.js"></script>		
+		<script src="js/libs/angular-route.min.js"></script>
+		<script src="js/libs/angular-animate.min.js"></script>
+		<script src="js/libs/underscore-min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFGFzc9BcMwW9UT2N5mYj9PeT4bXs8a6o&callback=angular.noop" async defer></script>
+	</body>
+</html>

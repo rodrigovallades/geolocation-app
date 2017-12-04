@@ -1,0 +1,16 @@
+{
+  "name": "geolocation-app-vallades",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Rodrigo Vallades Magalhães",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "express": "^4.12.3",
+    "underscore": "^1.8.3"
+  }
+}

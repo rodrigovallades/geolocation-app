@@ -1,0 +1,78 @@
+<p class="alert alert-{{messageClass()}}" ng-if="message.text.length">{{message.text}}</p>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>Estimated location</h2>
+        <table class="table table-striped empty geotable">
+            <tbody>
+                <tr>
+                    <td class="geotable__fieldname">IP</td>
+                    <td class="geotable__fieldvalue">{{query.ip}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">Country</td>
+                    <td class="geotable__fieldvalue">{{query.country_name}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">Region</td>
+                    <td class="geotable__fieldvalue">{{query.region_name}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">City</td>
+                    <td class="geotable__fieldvalue">{{query.city}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">Zip Code</td>
+                    <td class="geotable__fieldvalue">{{query.zip_code}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">Latitude</td>
+                    <td class="geotable__fieldvalue">{{query.latitude}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="geotable__fieldname">Longitude</td>
+                    <td class="geotable__fieldvalue">{{query.longitude}}</td>
+                    <td class="text-right">
+                        <button class="btn btn-default help">?</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <button class="btn btn-block btn-primary" ng-click="getMyLocation()">My location</button>
+            </div>
+            <div class="col-md-6 form-group">
+                <button class="btn btn-block btn-default" ng-click="resetLocation()">Reset location</button>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="Retrieve location from URL" ng-model="url" ng-model-options="{ debounce: 500 }">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" ng-click="getSiteLocation()">Retrieve location</button>
+                        </span>
+                    </div>
+                </div>
+            </div>            
+        </div>        
+        <div id="map" ng-show="showMap"></div>        
+    </div>
+</div>
