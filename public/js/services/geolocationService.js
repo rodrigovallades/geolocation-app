@@ -32,5 +32,4 @@ geolocationapp.factory("LocateService", ['$http', function($http){
                 });                       
             },
         }
-
     }]);

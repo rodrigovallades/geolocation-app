@@ -55,19 +55,28 @@
                 </tr>
             </tbody>
         </table>
-        <div class="row">
-            <div class="col-md-6 form-group">
-                <button class="btn btn-block btn-primary" ng-click="getMyLocation()">My location</button>
+        <div class="row">            
+            <div class="col-lg-6">
+                <div class="form-group well well-sm">
+                    <label>My location</label>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button class="btn btn-block btn-primary" ng-click="getMyLocation()">Locate me</button>                                
+                        </div>
+                        <div class="col-sm-6">                                
+                            <button class="btn btn-block btn-default" ng-click="resetLocation()">Reset my location</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-6 form-group">
-                <button class="btn btn-block btn-default" ng-click="resetLocation()">Reset location</button>
-            </div>
-            <div class="col-md-12">
-                <div class="form-group">
+            <div class="col-lg-6">
+                <div class="form-group well well-sm">
+                    <label>Website location</label>
                     <div class="input-group">
-                        <input class="form-control" placeholder="Retrieve location from URL" ng-model="url" ng-model-options="{ debounce: 500 }">
+                        <span class="input-group-addon">http://</span>
+                        <input class="form-control" placeholder="Retrieve location from URL" ng-model="url">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button" ng-click="getSiteLocation()">Retrieve location</button>
+                            <button class="btn btn-primary" type="button" ng-click="getSiteLocation()" ng-disabled="!url">Go</button>
                         </span>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	$scope.queryTitle = '';
 	$scope.showMap = false;
 	$scope.message = {};
-	$scope.url = 'www.nytimes.com';
+	$scope.url = '';
 	$scope.query = new Query();
 
 	if($routeParams.url) {
@@ -49,6 +49,9 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 
 	function getSiteLocation(url) {
 		url = url || $scope.url;
+		if (!validateURL(url)) {			
+			return;
+		};
 		LocateService.LocateURL(url)
 		.success(function(response){						
 			//console.log(response);
@@ -59,6 +62,15 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		.error(function(error){
 			showMessage(this.message, this.messageType);
 		});
+	};
+
+	function validateURL(url) {
+		var regex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;		
+		check = regex.test(url);
+		if (!check) {
+			showMessage('Invalid URL', 'error');
+		}
+		return check;	
 	};
 
 	function resetLocation() {
@@ -132,5 +144,6 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	$scope.getMyLocation = getMyLocation;
 	$scope.getSiteLocation = getSiteLocation;
 	$scope.resetLocation = resetLocation;	
+	$scope.validateURL = validateURL;	
 
 }]);
