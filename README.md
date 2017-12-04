@@ -2,14 +2,14 @@
 
 ## Requirements
 
-Requires a webserver to use AnguarjS routes.
+Requires a webserver to use AnguarJS routes.
 
 Suggested scenario:
 
-* NodeJS
+* Node.js
 * npm
 
-## Install instructions
+## npm instructions
 
 * npm install
 * npm start
