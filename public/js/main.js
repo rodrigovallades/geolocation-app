@@ -1,4 +1,4 @@
-var geolocationapp = angular.module('geolocationapp', ['myDirectives', 'ngRoute', 'ngAnimate'])
+var geolocationapp = angular.module('geolocationapp', ['ngRoute', 'ngAnimate'])
 .config(function($routeProvider, $locationProvider) {
 
     // omits # from the angular view routing.
