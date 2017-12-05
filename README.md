@@ -1,15 +1,36 @@
 # Avenue Code UI Challenge - Part I #
 
+
+Format
+This assessment must be delivered within 2 days.
+You must provide a README.txt (plain text) or a README.md (Markdown) file at the root of your repository, explaining:
+How to compile and run the application.
+How to run the suite of automated tests (unit tests, BDD tests, etc...).
+Which JS libraries you've decided to use for this challenge.
+Mention anything that was asked but not delivered and why, and any additional comments.
+Unclear or incomplete README instructions may subtract from your overall evaluation.
+Any questions, please send an email to recruitment.engineering@avenuecode.com
+
+## About my solution
+
+I had to learn how the Google Maps Javascript API works. I'm working with a single instance, adding markers and removing markers on the fly without re-instantiating the map. I'm also using fitBounds to make all markers visible at the same time (zoom out). I made sure that the application works in different view sizes.
+
+## Frameworks used
+
+* Bootstrap: I used Bootstrap to speed up the responsive aspects and just make the application more visually pleasing
+* UnderscoreJS: I used Underscore JS do make ir easier to deal with arrays
+* AngularJS: I used AngularJS to take care of the routing and make it easier to update the UI.
+
 ## Requirements
 
 Requires a webserver to use AnguarJS routes.
 
-Suggested scenario:
+Suggested tools:
 
 * Node.js
 * npm
 
-## npm instructions
+## How to run the application using npm
 
 * npm install
 * npm start
