@@ -3,7 +3,7 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 	
 	var mapCanvas = document.getElementById('map');	
 	var map = new google.maps.Map(mapCanvas, {				
-		zoom: 3		
+		zoom: 8		
 	});
 	
 	var user_location = {};	// simple user LatLng object
@@ -39,7 +39,7 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		.success(function(response){				
 			//console.log(response);			
 			fillLocationDetails(response, true);
-            updateMap(response, true);
+            addMarker(response, true);
 			showMessage(this.message, this.messageType);						
 		})
 		.error(function(error){
@@ -56,12 +56,47 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		.success(function(response){						
 			//console.log(response);
 			fillLocationDetails(response, false);
-			updateMap(response, false);
+			addMarker(response, false);
 			showMessage(this.message, this.messageType);			
 		})
 		.error(function(error){
 			showMessage(this.message, this.messageType);
 		});
+	};
+
+    function addMarker(data, isUser) {
+		// don't add duplicates		
+		var LatLng = { lat: data.latitude, lng: data.longitude };
+		if (!_.find(markersLatLng, LatLng)) {
+			var marker = new google.maps.Marker({  
+				position: LatLng,  
+				map: map  
+			});
+			markersLatLng.push(LatLng);
+			map_markers.push(marker);
+
+			if (isUser) {
+				user_location = LatLng;
+			}
+			updateMap();
+		}
+		//console.log(markersLatLng);
+		//console.log(map_markers);
+	}
+
+	function updateMap(isUser) {
+		$scope.showMap = true;
+		if (map_markers.length === 0) {
+			$scope.showMap = false;
+		} else if (map_markers.length > 1) {
+			var bounds = new google.maps.LatLngBounds();			
+			for (var i in map_markers) {
+			bounds.extend(map_markers[i].getPosition());
+			}
+			map.fitBounds(bounds);
+		} else if (map_markers.length === 1) {
+			map.panTo(map_markers[0].getPosition());
+		}
 	};
 
 	function validateURL(url) {
@@ -77,16 +112,18 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		if (user_location) {
 			var userLatLng = new google.maps.LatLng(user_location);
 			// find with Google Maps Marker is the user location
+			var map_markers_userIdx;
 			for (var i = 0; i < map_markers.length; i++ ) {				
-				if (map_markers[i].getPosition().lat() == userLatLng.lat()) {					
+				if (map_markers[i].getPosition().lat() == userLatLng.lat() && map_markers[i].getPosition().lng() == userLatLng.lng()) {					
 					// hide marker from the map
-					map_markers[i].setMap(null);
-				}
-				// remove marker from marker objects array
-				map_markers.splice(i, 1);
+					map_markers[i].setMap(null);					
+					map_markers_userIdx = i;
+				}				
 			}
-			// remove marker from simple markersLatLng array
+			// remove marker from simple markersLatLng array			
 			markersLatLng = _.reject(markersLatLng, user_location);
+			// remove marker from marker objects array
+			map_markers.splice(map_markers_userIdx, 1);
 		}
 		updateMap();
 	}
@@ -96,46 +133,10 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		$scope.message.type = messageType;
 	}
 
-    function addMarker(map, LatLng) {
-		// don't add duplicates
-		if (!_.find(markersLatLng, LatLng)) {			
-			var marker = new google.maps.Marker({  
-				position: LatLng,  
-				map: map  
-			});
-			markersLatLng.push(LatLng);
-			map_markers.push(marker);
-		}
-		//console.log(markersLatLng);
-		//console.log(map_markers);
-	}
-
 	function fillLocationDetails(details, queryType) {
 		$scope.query = details;		
 		$scope.queryTitle = queryType ? 'User location' : $scope.url;
 	}
-	
-	function updateMap(data, isUser) {	
-		if (data) {
-			var myLatLng = { lat: data.latitude, lng: data.longitude };
-			if (isUser) {
-				user_location = myLatLng;
-			}
-			var myLatLng = { lat: data.latitude, lng: data.longitude };			
-			map.setOptions({
-				zoom: 3,
-				center: myLatLng
-			})
-			addMarker(map, myLatLng);
-			$scope.showMap = true;
-		} else {			
-			if (map_markers.length === 0) {
-				$scope.showMap = false;
-			} else if ($scope.url){
-				getSiteLocation();
-			}
-		}		
-	};
 
 	$scope.messageClass = function() {
 		return $scope.message.type == 'success' ? 'info' : 'danger';
