@@ -16,6 +16,11 @@ Suggested scenario:
 
 A webserver will be started on localhost:3000
 
+## Screenshots
+
+![Desktop view](./docs/img/geolocationapp-desktop.png)
+![Mobile view](./docs/img/geolocationapp-mobile.png)
+
 ---
 
 ### Story Phrase ###
