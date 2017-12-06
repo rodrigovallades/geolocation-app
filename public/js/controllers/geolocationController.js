@@ -69,15 +69,23 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		var LatLng = { lat: data.latitude, lng: data.longitude };
 		if (!_.find(markersLatLng, LatLng)) {
 			var marker = new google.maps.Marker({  
-				position: LatLng,  
-				map: map  
+				position: LatLng,
+				map: map				
 			});
-			markersLatLng.push(LatLng);
-			map_markers.push(marker);
+			var infowindow = new google.maps.InfoWindow();
 
 			if (isUser) {
 				user_location = LatLng;
-			}			
+				marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+				infowindow.setContent('Your location');
+			} else if ($scope.url) {
+				marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
+				infowindow.setContent($scope.url);
+			}
+
+			markersLatLng.push(LatLng);
+			map_markers.push(marker);
+			infowindow.open(map, marker);
 		}
 		updateMap();
 	}
@@ -113,18 +121,18 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 		if (user_location) {
 			var userLatLng = new google.maps.LatLng(user_location);
 			// find with Google Maps Marker is the user location
-			var map_markers_userIdx;
+			var userMarker_idx;
 			for (var i = 0; i < map_markers.length; i++ ) {				
 				if (map_markers[i].getPosition().lat() == userLatLng.lat() && map_markers[i].getPosition().lng() == userLatLng.lng()) {					
 					// hide marker from the map
 					map_markers[i].setMap(null);					
-					map_markers_userIdx = i;
+					userMarker_idx = i;
 				}				
 			}
 			// remove marker from simple markersLatLng array			
 			markersLatLng = _.reject(markersLatLng, user_location);
 			// remove marker from marker objects array
-			map_markers.splice(map_markers_userIdx, 1);
+			map_markers.splice(userMarker_idx, 1);
 		}
 		updateMap();
 	}
