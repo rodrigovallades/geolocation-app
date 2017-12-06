@@ -77,11 +77,9 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 
 			if (isUser) {
 				user_location = LatLng;
-			}
-			updateMap();
+			}			
 		}
-		//console.log(markersLatLng);
-		//console.log(map_markers);
+		updateMap();
 	}
 
 	function updateMap(isUser) {
@@ -96,6 +94,9 @@ geolocationapp.controller('GeolocationController', ['$scope', '$http', '$routePa
 			map.fitBounds(bounds);
 		} else if (map_markers.length === 1) {
 			map.panTo(map_markers[0].getPosition());
+			map.setOptions({
+				zoom: 8
+			});
 		}
 	};
 
